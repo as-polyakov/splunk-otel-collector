@@ -1,0 +1,11 @@
+.classpath
+.gradle/
+.idea/
+.project
+.settings/
+.artifactory/
+obsvs-model/build/
+obsvs-client-library-java/build/
+obsvs-client-library-golang/test-results/
+obsvs-kda/**/build/
+bin/

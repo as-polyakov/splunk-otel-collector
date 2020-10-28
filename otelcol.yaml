@@ -1,0 +1,41 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:55680
+
+processors:
+  batch:
+
+exporters:
+    splunk_hec:
+    # Splunk HTTP Event Collector token.
+        #token: "614ce8f4-8c22-4d34-b1e7-e8bcfaea46b4"
+        token: "abcd1234"
+    # URL to a Splunk instance to send data to.
+        endpoint: "http://localhost:8088/services/collector/event"
+    # Optional Splunk source: https://docs.splunk.com/Splexicon:Source
+        source: "otel"
+    # Optional Splunk source type: https://docs.splunk.com/Splexicon:Sourcetype
+        sourcetype: "otel"
+    # Splunk index, optional name of the Splunk index targeted.
+        index: "metrics"
+    # Maximum HTTP connections to use simultaneously when sending data. Defaults to 100.
+        max_connections: 200
+    # Whether to disable gzip compression over HTTP. Defaults to false.
+        disable_compression: false
+    # HTTP timeout when sending data. Defaults to 10s.
+        timeout: 10s
+    # Whether to skip checking the certificate of the HEC endpoint when sending data over HTTPS. Defaults to false.
+        insecure_skip_verify: false
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [splunk_hec]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [splunk_hec]
